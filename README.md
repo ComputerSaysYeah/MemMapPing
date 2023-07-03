@@ -1,10 +1,8 @@
 # Memory Mapped Ping Pong
 
-A `ping` application implemented using memory mapped files, compare-and-swap operations and memory barriers.
+A `ping` application implemented using memory mapped files, compare-and-swap and memory barriers.
 
-Implemented as an example for comparing different communication strategies between processes.
-
-i.e.
+Made to exemplify memory mapped performance for communication between processes.
 
 ```shell
 ./mmping PING
@@ -33,3 +31,6 @@ PING localhost (127.0.0.1) 16(44) bytes of data.
 0.041ms is about 410us or 410000ns. 0.024M (24K) pings/sec.
 
 0.024M vs 11.0M is about 450 times faster.
+
+To be fair, if the PING was being answer by another process, and not the kernel TCP stack, the time it takes to
+ping-pong would probably be twice as slow.
