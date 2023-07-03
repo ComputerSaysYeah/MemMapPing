@@ -9,14 +9,15 @@ i.e.
 ```shell
 ./mmping PING
 Two Processes: One Pings the other Pongs; using memory mapped files.
-2023/07/03 23:59:01 PING 10M, 194.24/ns per ping, or 5.1M pings/sec
-2023/07/03 23:59:03 PING 20M, 194.19/ns per ping, or 5.1M pings/sec
-2023/07/03 23:59:05 PING 30M, 194.18/ns per ping, or 5.1M pings/sec
-2023/07/03 23:59:07 PING 40M, 194.18/ns per ping, or 5.1M pings/sec
-2023/07/03 23:59:09 PING 50M, 194.19/ns per ping, or 5.1M pings/sec
+2023/07/04 00:05:11 PING 10M, 90.88/ns per ping, or 11.0M pings/sec
+2023/07/04 00:05:12 PING 20M, 90.02/ns per ping, or 11.1M pings/sec
+2023/07/04 00:05:13 PING 30M, 91.53/ns per ping, or 10.9M pings/sec
+2023/07/04 00:05:14 PING 40M, 88.55/ns per ping, or 11.3M pings/sec
+2023/07/04 00:05:14 PING 50M, 90.72/ns per ping, or 11.0M pings/sec
 ```
 
-(Ryzen 3800X, on Intel Architectures Compare-And-Swap operations are twice as fast, you can achieve about 10M pings/sec)
+(on Intel(R) Core(TM) i7-8559U CPU @ 2.70GH, AMD/Ryzen 3800X is about 5.1M, Intel is better with compare-and-swap and
+memory barriers)
 
 A normal ping would take:
 
@@ -31,4 +32,4 @@ PING localhost (127.0.0.1) 16(44) bytes of data.
 
 0.041ms is about 410us or 410000ns. 0.024M (24K) pings/sec.
 
-0.024M vs 5.1M is about 212 times faster.
+0.024M vs 11.0M is about 450 times faster.
