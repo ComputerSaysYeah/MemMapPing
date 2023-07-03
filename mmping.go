@@ -14,7 +14,7 @@ const MMFile = "mmping.file"
 
 func main() {
 
-	println("Two Processes, One Ping the Pongs, using memory mapped files.")
+	println("Two Processes: One Pings the other Pongs; using memory mapped files.")
 
 	// creates a file
 	if _, err := os.Stat(MMFile); errors.Is(err, os.ErrNotExist) {
@@ -46,7 +46,7 @@ func main() {
 	t := time.Now().UnixNano()
 	if len(os.Args) == 2 && os.Args[1] == "PING" {
 		// starts with a zero
-		atomic.StoreUint64(&a32[0], 0)
+		atomic.StoreUint64(&a32[0], 1)
 		for {
 			ping := atomic.LoadUint64(&a32[0])
 			pong := atomic.LoadUint64(&a32[1])
