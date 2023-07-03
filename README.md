@@ -28,7 +28,7 @@ PING localhost (127.0.0.1) 16(44) bytes of data.
 24 bytes from localhost (127.0.0.1): icmp_seq=4 ttl=64 time=0.033 ms
 ```
 
-0.041ms is about 410us or 410000ns. 0.024M (24K) pings/sec.
+0.041ms is about 41us or 41000ns. 0.024M (24K) pings/sec.
 
 0.024M vs 11.0M is about 450 times faster.
 
