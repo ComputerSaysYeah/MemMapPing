@@ -16,37 +16,40 @@ func main() {
 
 	println("Two Processes: One Pings the other Pongs; using memory mapped files.")
 
-	// creates a file
+	// creates a file only if it does not exist
 	if _, err := os.Stat(MMFile); errors.Is(err, os.ErrNotExist) {
 		if f, err := os.OpenFile(MMFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644); err != nil {
-			panic(err)
+			log.Panic(err)
 		} else {
-			var buf [256]byte
-			buf = [256]byte{}
-			if _, err = f.Write(buf[:]); err != nil {
-				panic(err)
+			if _, err = f.Seek(256-1, 1); err != nil {
+				log.Panic(err)
 			}
-			f.Close()
+			if _, err = f.Write([]byte{0}); err != nil {
+				log.Panic(err)
+			}
+			if err = f.Close(); err != nil {
+				log.Panic(err)
+			}
 		}
 	}
 
-	// opens mmaped file
+	// opens the memory mapped file
 	f, err := os.OpenFile(MMFile, os.O_RDWR, 0644)
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 	mapped, err := mmap.Map(f, mmap.RDWR, 0)
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 	// converts the byte array into an array of uint64
 	a32 := (*[32]uint64)(unsafe.Pointer(&mapped[0]))
 
+	// ping ping
 	t := time.Now().UnixNano()
 	if len(os.Args) == 2 && os.Args[1] == "PING" {
-		// starts with a zero
-		atomic.StoreUint64(&a32[0], 1)
+		atomic.StoreUint64(&a32[0], 1) // resets counter
 		for {
 			ping := atomic.LoadUint64(&a32[0])
 			pong := atomic.LoadUint64(&a32[1])

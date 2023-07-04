@@ -2,7 +2,7 @@
 all: clean binary
 
 clean:
-	rm -f mmping
+	rm -f mmping mmping.file
 	go clean -testcache -testcache
 
 binary:
