@@ -54,16 +54,17 @@ func main() {
 			ping := atomic.LoadUint64(&a32[0])
 			pong := atomic.LoadUint64(&a32[1])
 			if ping == pong {
-				ping++
-				atomic.CompareAndSwapUint64(&a32[0], ping-1, ping)
-				if ping%10_000_000 == 0 {
-					t = time.Now().UnixNano() - t
-					pingTimeNs := float64(t) / 10_000_000.0
-					log.Printf("PING %vM, %.2f/ns per ping, or %.1fM pings/sec\n",
-						ping/1_000_000,
-						pingTimeNs,
-						1_000_000_000/pingTimeNs/1_000_000)
-					t = time.Now().UnixNano()
+				if atomic.CompareAndSwapUint64(&a32[0], ping, ping+1) {
+					ping++
+					if ping%10_000_000 == 0 {
+						t = time.Now().UnixNano() - t
+						pingTimeNs := float64(t) / 10_000_000.0
+						log.Printf("PING %vM, %.2f/ns per ping, or %.1fM pings/sec\n",
+							ping/1_000_000,
+							pingTimeNs,
+							1_000_000_000/pingTimeNs/1_000_000)
+						t = time.Now().UnixNano()
+					}
 				}
 			}
 		}
